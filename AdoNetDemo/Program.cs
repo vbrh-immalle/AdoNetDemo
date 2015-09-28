@@ -29,8 +29,11 @@ namespace AdoNetDemo
                 // wordt 1 keer doorlopen per rij
                 Console.WriteLine("Aantal teruggekregen velden: {0}", rdr.FieldCount);
 
+                Console.WriteLine("Voornaam: " + rdr["Voornaam"]);
+                Console.WriteLine("Achternaam: " + rdr["Achternaam"]);
             }
 
+            rdr.Close();
             conn.Close();
         }
     }
