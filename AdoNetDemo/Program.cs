@@ -10,7 +10,7 @@ namespace AdoNetDemo
     class Program
     {
 
-        static void QueryTest(SqlConnection conn)
+        static void ToonAlleLeerlingen(SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
@@ -18,6 +18,7 @@ namespace AdoNetDemo
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
+            Console.WriteLine("Deze leerlingen zitten in de database:");
             while (rdr.Read())
             {
                 // wordt 1 keer doorlopen per rij
@@ -53,6 +54,16 @@ namespace AdoNetDemo
             cmd.ExecuteNonQuery();
         }
 
+        static void AskUserForNewLeerling(SqlConnection conn)
+        {
+            Console.Write("Geef de voornaam: ");
+            var voornaam = Console.ReadLine();
+            Console.Write("Geef de achternaam: ");
+            var achternaam = Console.ReadLine();
+
+            AddLeerlingSafe(conn, voornaam, achternaam);
+        }
+
         static void Main(string[] args)
         {
             //string connString = "";
@@ -62,15 +73,8 @@ namespace AdoNetDemo
             conn.Open();
             //AddLeerling(conn, "Freddy", "F");
 
-            Console.Write("Geef de voornaam: ");
-            var voornaam = Console.ReadLine();
-            Console.Write("Geef de achternaam: ");
-            var achternaam = Console.ReadLine();
-
-            AddLeerlingSafe(conn, voornaam, achternaam);
-
-            Console.WriteLine("Deze leerlingen zitten in de database:");
-            QueryTest(conn);
+            
+            ToonAlleLeerlingen(conn);
             conn.Close();
         }
     }
