@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +10,13 @@ namespace AdoNetDemo
     class Program
     {
 
-        static void ToonAlleLeerlingen(SqlConnection conn)
+        static void ToonAlleLeerlingen(MySqlConnection conn)
         {
-            SqlCommand cmd = new SqlCommand();
+            MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
             cmd.CommandText = "SELECT Achternaam, Voornaam FROM Leerlingen";
 
-            SqlDataReader rdr = cmd.ExecuteReader();
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
             Console.WriteLine("Deze leerlingen zitten in de database:");
             while (rdr.Read())
@@ -31,9 +31,9 @@ namespace AdoNetDemo
             rdr.Close();
         }
 
-        static void ToonAantalLeerlingen(SqlConnection conn)
+        static void ToonAantalLeerlingen(MySqlConnection conn)
         {
-            SqlCommand cmd = new SqlCommand();
+            MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
             cmd.CommandText = "SELECT COUNT(*) FROM Leerlingen";
 
@@ -42,9 +42,9 @@ namespace AdoNetDemo
             Console.WriteLine("Het aantal leerlingen in de database: {0}.", aantal);
         }
 
-        static void AddLeerling(SqlConnection conn, string Voornaam, string Achternaam)
+        static void AddLeerling(MySqlConnection conn, string Voornaam, string Achternaam)
         {
-            var cmd = new SqlCommand();
+            var cmd = new MySqlCommand();
             cmd.Connection = conn;
             //cmd.CommandText = "INSERT INTO Leerlingen(Voornaam, Achternaam) VALUES( " + Voornaam + "," + Achternaam + ")";
             cmd.CommandText = String.Format("INSERT INTO Leerlingen(Voornaam, Achternaam) VALUES('{0}', '{1}')", Voornaam, Achternaam);
@@ -52,20 +52,20 @@ namespace AdoNetDemo
             cmd.ExecuteNonQuery();
         }
 
-        static void AddLeerlingSafe(SqlConnection conn, string Voornaam, string Achternaam)
+        static void AddLeerlingSafe(MySqlConnection conn, string Voornaam, string Achternaam)
         {
-            var cmd = new SqlCommand();
+            var cmd = new MySqlCommand();
             cmd.Connection = conn;
 
-            cmd.Parameters.Add(new SqlParameter("vnaam", Voornaam));
-            cmd.Parameters.Add(new SqlParameter("anaam", Achternaam));
+            cmd.Parameters.Add(new MySqlParameter("vnaam", Voornaam));
+            cmd.Parameters.Add(new MySqlParameter("anaam", Achternaam));
 
             cmd.CommandText = "INSERT INTO Leerlingen(Voornaam, Achternaam) VALUES(@vnaam, @anaam)";
 
             cmd.ExecuteNonQuery();
         }
 
-        static void AskUserForNewLeerling(SqlConnection conn)
+        static void AskUserForNewLeerling(MySqlConnection conn)
         {
             Console.Write("Geef de voornaam: ");
             var voornaam = Console.ReadLine();
@@ -80,9 +80,9 @@ namespace AdoNetDemo
         static void Main(string[] args)
         {
             //string connString = "";
-            string connString = @"Data Source=(localdb)\v11.0;Initial Catalog=Leerlingen;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connString = @"Server=192.168.56.101;Database=SchoolDb;Uid=imma;Pwd=imma;";
 
-            SqlConnection conn = new SqlConnection(connString);
+            MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             //AddLeerling(conn, "Freddy", "F");
 
