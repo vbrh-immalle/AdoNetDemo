@@ -31,6 +31,17 @@ namespace AdoNetDemo
             rdr.Close();
         }
 
+        static void ToonAantalLeerlingen(SqlConnection conn)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "SELECT COUNT(*) FROM Leerlingen";
+
+            var aantal = cmd.ExecuteScalar();
+
+            Console.WriteLine("Het aantal leerlingen in de database: {0}.", aantal);
+        }
+
         static void AddLeerling(SqlConnection conn, string Voornaam, string Achternaam)
         {
             var cmd = new SqlCommand();
@@ -64,6 +75,8 @@ namespace AdoNetDemo
             AddLeerlingSafe(conn, voornaam, achternaam);
         }
 
+        
+
         static void Main(string[] args)
         {
             //string connString = "";
@@ -73,6 +86,7 @@ namespace AdoNetDemo
             conn.Open();
             //AddLeerling(conn, "Freddy", "F");
 
+            ToonAantalLeerlingen(conn);
             
             ToonAlleLeerlingen(conn);
             conn.Close();
