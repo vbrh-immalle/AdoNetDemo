@@ -27,8 +27,6 @@ namespace AdoNetDemo
                 Console.WriteLine("Voornaam: " + rdr[0]);
                 Console.WriteLine("Achternaam: " + rdr[1]);
             }
-
-            rdr.Close();
         }
 
         static void ToonAantalLeerlingen(MySqlConnection conn)
